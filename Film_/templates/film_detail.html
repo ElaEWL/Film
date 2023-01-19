@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Filmy</title>
+  </head>
+  <body>
+  <div>
+	<h2>{{ object.nazwa }}</h2>
+	<p>Kategoria: {{ object.kategoria }}</p>
+	<p>Opis: {{ object.opis }}</p>
+	<p>Aktorzy: 
+	<ul>
+{% for aktorzy in object.aktorzy.all %}
+    <li><a href="/Film_/Aktorzy/{{ aktorzy.nazwisko|slugify }}">{{ aktorzy }}</a></li>
+{% endfor %}
+</ul></p>
+	<p>Rezyserzy: 
+	<ul>
+{% for rezyser in object.rezyser.all %}
+    <li><a href="/Film_/Rezyserzy/{{ rezyser.nazwisko|slugify }}">{{ rezyser }}</a></li>
+{% endfor %}
+</ul></p>
+<p>Oceny: 
+<ul>
+{% for oceny in object.oceny.all %}
+<li><a href="/Film_/Ocena/{{ oceny.pk }}">{{ oceny.wartość }}</a></li>
+{% endfor %}
+</ul></p>
+	<p>Rok_produkcji: {{ object.rok_produkcji }}</p>
+	<p>Ilosc_ocen: {{ object.oceny.count }}</p>
+	{{ objects.oceny.total_sale }}
+	<p>created: {{ object.created }}</p>
+	<p>updated: {{ object.updated }}</p>	
+<li><a href="/Film_/Ocena/new">Dodaj ocenę</a></li>
+  </div>
+  </body>
+</html>

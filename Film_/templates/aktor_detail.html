@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Aktorzy</title>
+  </head>
+  <body>
+  <div>
+	<h2>{{ object.nazwa }}</h2>
+	<p>Imię: {{ object.imię }}</p>
+	<p>Nazwisko: {{ object.nazwisko }}</p>
+	<p>Filmy: 
+	<ul>
+{% for aktorzy in object.aktorzy.all %}
+    <li><a href="/Film_/Filmy/{{ aktorzy|slugify }}">{{ aktorzy }}</li>
+{% endfor %}
+</ul></p>	
+  </div>
+  </body>
+</html>

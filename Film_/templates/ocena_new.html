@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Oceny</title>
+  </head>
+  <body>
+  <h1>Oceny</h1>
+  <h2>Nowa ocena</h2>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Zapisz</button>
+    </form>
+  
+  </body>
+</html>

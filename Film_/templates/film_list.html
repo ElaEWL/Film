@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Filmy</title>
+  </head>
+  <body>
+  <h1>Filmy</h1>
+{% for film in object_list %}
+  <ul>
+    <li><a href="{{ film.get_absolute_url }}">{{ film.nazwa }}</a></li>
+  </ul>
+{% endfor %}
+
+  </body>
+</html>

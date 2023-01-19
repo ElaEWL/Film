@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Aktorzy</title>
+  </head>
+  <body>
+  <h1>Aktorzy</h1>
+{% for aktor in object_list %}
+  <ul>
+    <li><a href="{{ aktor.get_absolute_url }}">{{ aktor.nazwisko }}, {{ aktor.imię }}</a></li>
+  </ul>
+{% endfor %}
+
+  </body>
+</html>
