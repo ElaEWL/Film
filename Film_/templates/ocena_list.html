@@ -3,18 +3,23 @@
   <head>
     <meta charset="utf-8" />
     <title>Oceny</title>
+	{% extends 'base.html' %}
   </head>
   <body>
-  <h1>Oceny</h1>
-  <a href="{% url 'ocena_new' %}" class="top-menu">Dodaj</a>
+{% block content %}
+ <div class="container">
+<h2>Oceny</h2><br>
+<a href="{% url 'ocena_new' %}" class="top-menu">Dodaj ocenę</a><br><br>
   {% for ocena in ocena %}
     <div>
-        <p>opublikowana: {{ ocena.published_date }}</p>
-        
-		Ocena: <a href="{% url 'ocena_details' pk=ocena.pk %}" class="top-menu">{{ocena.wartość}}</a>
-        <p>Film: {{ ocena.film }}</p>
-		<p>Użytkownik: {{ ocena.user }}</p>
+        opublikowana: {{ ocena.published_date }}<br>
+		Ocena: {{ocena.wartość}} <a href="{% url 'ocena_edit' pk=ocena.pk %}" class="top-menu">Edytuj</a><br>
+        Film: {{ ocena.film }}<br>
+		Użytkownik: {{ ocena.user }}<br>
+		<br>
     </div>
-  {% endfor %}
+ {% endfor %}
+<a href="{% url 'ocena_new' %}" class="top-menu">Dodaj ocenę</a>
+{% endblock %}
   </body>
 </html>

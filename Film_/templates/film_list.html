@@ -3,14 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <title>Filmy</title>
+	{% extends 'base.html' %}
   </head>
   <body>
-  <h1>Filmy</h1>
+{% block content %}
+ <div class="container">
+<h2>Filmy</h2>
 {% for film in object_list %}
   <ul>
     <li><a href="{{ film.get_absolute_url }}">{{ film.nazwa }}</a></li>
   </ul>
+{% empty %}
+<li>Brak filmów</li>
 {% endfor %}
-
+{% endblock %}
   </body>
 </html>

@@ -2,19 +2,20 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8" />
-    <title>Oceny</title>
+    <title>Oceny: Szczegóły</title>
+	{% extends 'base.html' %}
   </head>
   <body>
-  <h1>Oceny</h1>
-  <div class="ocena">
+{% block content %}
+ <h1>Oceny: Szczegóły</h1>
+    <div class="ocena">
 	{% if ocena.published_date %}
-        <p>opublikowana: {{ ocena.published_date }}</p>
+        opublikowana: {{ ocena.published_date }}<br>
 	{% endif %}
-	Ocena: <a class="btn btn-default" href="{% url 'ocena_edit' pk=ocena.pk %}">{{ ocena.wartość }}</a>
-        
-        <p>Film: {{ ocena.film }}</p>
-		<p>Użytkownik: {{ ocena.user }}</p>
+	Ocena: {{ ocena.wartość }} <a href="{% url 'ocena_edit' pk=ocena.pk %}">Edytuj ocenę</a><br>
+        Film: {{ ocena.film }}<br>
+		Użytkownik: {{ ocena.user }}<br>
     </div>
-
+{% endblock %}
   </body>
 </html>

@@ -22,7 +22,6 @@ class Rezyser(models.Model):
         return self.nazwisko+ " " +self.imię
     def get_absolute_url(self):
         return reverse("rezyser_detail", kwargs={"slug": self.slug})  
-    
 
 class Kategoria(models.Model):
     nazwa = models.CharField(max_length=30)
@@ -36,11 +35,14 @@ class Film(models.Model):
     opis = models.CharField(max_length=250)
     aktorzy = models.ManyToManyField(Aktor, related_name='aktorzy')
     rezyser = models.ManyToManyField(Rezyser, related_name='rezyser')
+    # srednia = models.DecimalField(max_digits=5, decimal_places=2, blank=True,null=True)
+    # ocena = models.ManyToManyField(Ocena)
     rok_produkcji = models.IntegerField()
+    # ilosc_ocen = models.IntegerField()
     created = models.DateTimeField(
             default=timezone.now)
     updated = models.DateTimeField(
-            blank=True, null=True)
+            default=timezone.now)
     slug = models.SlugField(null=False)
     
     # def publish(self):
@@ -52,24 +54,23 @@ class Film(models.Model):
     def get_absolute_url(self):
         return reverse("film_detail", kwargs={"slug": self.slug})  
         
-        
 class Ocena(models.Model):
-    wartość = models.IntegerField()
+    ocena = (
+        ('1', 'Okropny'),
+        ('2', 'Słaby'),
+        ('3', 'Średni'),
+        ('4', 'Dobry'),
+        ('5', 'Znakomity'),
+    )
+    wartość = models.IntegerField(choices=ocena,default=5)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # user = models.CharField(max_length=30)
-    film = models.ForeignKey(Film, on_delete=models.CASCADE, blank=True, null=True, related_name='oceny')
+    film = models.ForeignKey(Film, on_delete=models.CASCADE, blank=False, null=False, related_name='oceny')
     published_date = models.DateTimeField(blank=True, null=True)
 
     def __int__(self):
-        return self.wartość      
-    def total_sale(self):
-        total = self.aggregate(Avg('wartość'))['TOTAL']
-        return total
+        return self.wartość   
+        
     def publish(self):
         self.published_date = timezone.now()
         self.save()
-    # def setFields(self,wartość,user,film):
-        # self.wartość = wartość
-        # self.user = user
-        # self.film = film
-        

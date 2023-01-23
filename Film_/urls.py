@@ -19,6 +19,7 @@ from . import views
 from .views import FilmListView, FilmDetailView, AktorDetailView, AktorListView, RezyserDetailView, RezyserListView
 
 urlpatterns = [
+    
     path("", views.index, name='index'),
     path("Filmy/<slug:slug>", FilmDetailView.as_view(), name="film_detail"),
     path("Filmy", FilmListView.as_view(), name="film_list"),

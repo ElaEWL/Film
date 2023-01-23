@@ -3,14 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <title>Aktorzy</title>
+	{% extends 'base.html' %}
   </head>
   <body>
-  <h1>Aktorzy</h1>
+{% block content %}
+ <div class="container">
+<h2>Aktorzy</h2>
 {% for aktor in object_list %}
   <ul>
     <li><a href="{{ aktor.get_absolute_url }}">{{ aktor.nazwisko }}, {{ aktor.imię }}</a></li>
   </ul>
+  {% empty %}
+<li>Brak aktorów</li>
 {% endfor %}
-
+</div>
+{% endblock %}
   </body>
 </html>

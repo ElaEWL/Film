@@ -3,14 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <title>Rezyserzy</title>
+	{% extends 'base.html' %}
   </head>
   <body>
-  <h1>Rezyserzy</h1>
+
+{% block content %}
+ <div class="container">
+<h2>Rezyserzy</h2>
+
 {% for rezyser in object_list %}
   <ul>
     <li><a href="{{ rezyser.get_absolute_url }}">{{ rezyser.nazwisko}}, {{rezyser.imię }}</a></li>
   </ul>
+ {% empty %}
+<li>Brak reżyserów</li>
 {% endfor %}
-
+{% endblock %}
   </body>
 </html>

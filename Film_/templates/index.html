@@ -3,20 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <title>Informacje</title>
+	{% extends 'base.html' %}
   </head>
   <body>
-  Informacje:<br>
-{% if filmy %}
-    <ul>
-        <li><a href="Filmy">Filmy </a></li>	
-    </ul>
-{% else %}
-    <p>No Films are available.</p>
-{% endif %}
+{% block content %}
+  <div class="container">
 <ul>
-<li><a href="Aktorzy"> Aktorzy  </a></li>
-</ul>
-<ul>
-<li><a href="Rezyserzy"> Rezyserzy  </a></li></ul>
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <a href="{% url 'film_list' %}"><button type="button" class="btn btn-primary">Filmy</button></a>
+    <a href="{% url 'aktor_list' %}"><button type="button" class="btn btn-success">Aktorzy</button></a>
+    <a href="{% url 'rezyser_list' %}"><button type="button" class="btn btn-warning">Rezyserzy</button></a>
+	<a href="{% url 'ocena_list' %}"><button type="button" class="btn btn-primary">Oceny</button></a>
+  </div>
+{% endblock %}
   </body>
 </html>

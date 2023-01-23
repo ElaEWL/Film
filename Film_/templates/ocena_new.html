@@ -2,15 +2,17 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8" />
-    <title>Oceny</title>
+    <title>Oceny: Nowa ocena</title>
+	{% extends 'base.html' %}
   </head>
   <body>
-  <h1>Oceny</h1>
-  <h2>Nowa ocena</h2>
+
+{% block content %}
+ <h1>Oceny: Nowa ocena</h1>
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Zapisz</button>
+        <button type="submit"> Zapisz </button>
     </form>
-  
+{% endblock %}
   </body>
 </html>

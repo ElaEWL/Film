@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en-US">
+<html lang="en-US">
   <head>
     <meta charset="utf-8" />
     <title>Filmy</title>
+	{% extends 'base.html' %}
   </head>
   <body>
+{% block content %}
   <div>
-	<h2>{{ object.nazwa }}</h2>
+	<h2>Szczegóły dla filmu: {{ object.nazwa }}</h2>
 	<p>Kategoria: {{ object.kategoria }}</p>
 	<p>Opis: {{ object.opis }}</p>
 	<p>Aktorzy: 
@@ -24,7 +27,8 @@
 <p>Oceny: 
 <ul>
 {% for oceny in object.oceny.all %}
-<li><a href="/Film_/Ocena/{{ oceny.pk }}">{{ oceny.wartość }}</a></li>
+<li><a href="/Film_/Ocena/{{ oceny.id }}">{{ oceny.wartość }}</a></li>
+{{object.oceny.srednia}}
 {% endfor %}
 </ul></p>
 	<p>Rok_produkcji: {{ object.rok_produkcji }}</p>
@@ -34,5 +38,6 @@
 	<p>updated: {{ object.updated }}</p>	
 <li><a href="/Film_/Ocena/new">Dodaj ocenę</a></li>
   </div>
+{% endblock %}
   </body>
 </html>
