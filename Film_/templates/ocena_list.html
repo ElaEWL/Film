@@ -18,6 +18,8 @@
 		Użytkownik: {{ ocena.user }}<br>
 		<br>
     </div>
+{% empty %}
+<li>Brak ocen</li>
  {% endfor %}
 <a href="{% url 'ocena_new' %}" class="top-menu">Dodaj ocenę</a>
 {% endblock %}
