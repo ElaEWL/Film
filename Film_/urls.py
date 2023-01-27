@@ -31,6 +31,16 @@ urlpatterns = [
     path("Ocena/<int:pk>/", views.ocena_details, name='ocena_details'),
     path("Ocena/new/", views.ocena_new, name='ocena_new'),
     path('Ocena/<int:pk>/edit/', views.ocena_edit, name='ocena_edit'),
+    # API
+    path('api/film', views.FilmList.as_view()),
+    path('api/aktor', views.AktorList.as_view()),
+    path('api/rezyser', views.RezyserList.as_view()),
+    path('api/kategoria', views.KategoriaList.as_view()),
+    path('api/ocena', views.OcenaList.as_view()),
+    path('api/ocena/<int:pk>', views.OcenaRetrieveDestroy.as_view()),
+    path('api/ocena/<int:pk>/edit', views.OcenaRetrieveUpdate.as_view()),
+    path('api/user/create', views.UserCreate.as_view()),
+    path('api/user/login', views.UserTokenList.as_view()),
 ]
 
 

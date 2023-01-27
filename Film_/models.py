@@ -53,20 +53,21 @@ class Film(models.Model):
         
     def get_absolute_url(self):
         return reverse("film_detail", kwargs={"slug": self.slug})  
+    
         
 class Ocena(models.Model):
-    ocena = (
-        ('1', 'Okropny'),
-        ('2', 'Słaby'),
-        ('3', 'Średni'),
-        ('4', 'Dobry'),
-        ('5', 'Znakomity'),
+    ocena_lista = (
+        (1, 'Okropny'),
+        (2, 'Słaby'),
+        (3, 'Średni'),
+        (4, 'Dobry'),
+        (5, 'Znakomity'),
     )
-    wartość = models.IntegerField(choices=ocena,default=5)
+    wartość = models.IntegerField(choices=ocena_lista)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # user = models.CharField(max_length=30)
     film = models.ForeignKey(Film, on_delete=models.CASCADE, blank=False, null=False, related_name='oceny')
-    published_date = models.DateTimeField(blank=True, null=True)
+    published_date = models.DateTimeField(blank=True, null=True, default=timezone.now)
 
     def __int__(self):
         return self.wartość   
@@ -74,3 +75,6 @@ class Ocena(models.Model):
     def publish(self):
         self.published_date = timezone.now()
         self.save()
+        
+    
+    

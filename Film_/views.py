@@ -14,6 +14,11 @@ from django.contrib.auth import authenticate
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from rest_framework import generics
+from .serializers import FilmSerializer, AktorSerializer, RezyserSerializer, OcenaSerializer, KategoriaSerializer, UserSerializer, TokenSerializer
+from rest_framework.permissions import IsAuthenticated, BasePermission, SAFE_METHODS, IsAdminUser, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.exceptions import ValidationError
+from rest_framework.authtoken.models import Token
 
 def home(request):
     context = {}
@@ -83,7 +88,7 @@ class FilmListView(ListView):
 class FilmDetailView(DetailView):
     model = Film
     template_name = "film_detail.html"
-       
+        
 class AktorListView(ListView):
     model = Aktor
     template_name = "aktor_list.html"
@@ -157,3 +162,79 @@ def index(request):
    # return HttpResponse(template.render(context, request))
     #output = ', '.join([q.nazwisko+" "+q.imię for q in aktorzy])
     #return HttpResponse(output)
+
+#RestFramework
+
+class ReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        return request.method in SAFE_METHODS
+        
+class FilmList(generics.ListAPIView):
+    queryset = Film.objects.all()
+    serializer_class = FilmSerializer
+
+class AktorList(generics.ListAPIView):
+    queryset = Aktor.objects.all()
+    serializer_class = AktorSerializer
+
+class RezyserList(generics.ListAPIView):
+    queryset = Rezyser.objects.all()
+    serializer_class = RezyserSerializer
+    
+class KategoriaList(generics.ListAPIView):
+    queryset = Kategoria.objects.all()
+    serializer_class = KategoriaSerializer
+    
+class OcenaList(generics.ListCreateAPIView):
+    queryset = Ocena.objects.all()
+    serializer_class = OcenaSerializer
+    permission_classes = [(IsAuthenticated & ReadOnly) | IsAdminUser]
+    def perform_create(self, serializer): 
+        serializer.save(user_id=self.request.user)
+
+class OcenaRetrieveDestroy(generics.RetrieveDestroyAPIView):
+    queryset = Ocena.objects.all()
+    serializer_class = OcenaSerializer
+    permission_classes = [(IsAuthenticated & ReadOnly) | IsAdminUser]
+    def delete(self, request, *args, **kwargs):
+        ocena = Ocena.objects.filter(pk=kwargs['pk'], user_id=self.request.user)
+        if ocena.exists():
+            return self.destroy(request, *args, **kwargs)
+        else:
+            raise ValidationError('To nie twoja ocena')
+        
+class OcenaRetrieveUpdate(generics.RetrieveUpdateAPIView):
+    queryset = Ocena.objects.all()
+    serializer_class = OcenaSerializer
+    permission_classes = [(IsAuthenticated & ReadOnly) | IsAdminUser]  
+    def put(self, request, *args, **kwargs):
+        ocena = Ocena.objects.filter(pk=kwargs['pk'], user=self.request.user)
+        if ocena.exists():
+            return self.update(request, *args, **kwargs)
+        else:
+            raise ValidationError('To nie twoja ocena')    
+           
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (AllowAny, )         
+    
+class UserTokenList(generics.ListAPIView):
+    queryset = Token.objects.all()
+    serializer_class = TokenSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Token.objects.filter(user=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        user = User.objects.filter(username=self.request.user)
+        if user.exists():
+            token = Token.objects.filter(user=self.request.user)
+            if token.exists():
+                return self.list(request, *args, **kwargs)
+            else:
+                token = Token.objects.create(user=self.request.user)
+                return self.list(request, *args, **kwargs)
+        else:
+            raise ValidationError('Nie jesteś zarejestrowany')
